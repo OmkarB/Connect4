@@ -9,7 +9,7 @@ defmodule Connect4.GamesChannel do
 			socket = socket
 			|> assign(:game, game)
 			|> assign(:name, game)
-			{:ok, %{"join" => name, "game" => Game.client_view(game)}}, socket}
+			{:ok, %{"join" => name, "game" => Game.client_view(game)}, socket}
 		else
 			{:error, %{reason: "unauthorized"}}
 		end
