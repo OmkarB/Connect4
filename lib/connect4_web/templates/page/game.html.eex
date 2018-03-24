@@ -1,0 +1,8 @@
+<div>
+  <script>
+    window.gameName = "<%= @game %>";
+  </script>
+  <div id="root">
+    Loading...
+  </div>
+</div>

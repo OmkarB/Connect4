@@ -1,8 +1,7 @@
 defmodule Connect4Web.UserSocket do
   use Phoenix.Socket
 
-  ## Channels
-  channel "room:*", Connect4Web.GameChannel
+  channel "games:*", Connect4Web.GamesChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket

@@ -33,7 +33,7 @@ let socket = new Socket("/socket", {params: {token: window.userToken}})
 // Now you need to pass this token to JavaScript. You can do so
 // inside a script tag in "lib/web/templates/layout/app.html.eex":
 //
-//     <script>window.userToken = "<%= assigns[:user_token] %>";</script>
+//     <script>window.userToken = "<%= assigns[:user_token] %>"</script>
 //
 // You will need to verify the user token in the "connect/2" function
 // in "lib/web/channels/user_socket.ex":
@@ -52,11 +52,5 @@ let socket = new Socket("/socket", {params: {token: window.userToken}})
 // from connect if you don't care about authentication.
 
 socket.connect()
-
-// Now that you are connected, you can join channels with a topic:
-let channel = socket.channel("topic:subtopic", {})
-channel.join()
-  .receive("ok", resp => { console.log("Joined successfully", resp) })
-  .receive("error", resp => { console.log("Unable to join", resp) })
 
 export default socket
