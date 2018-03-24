@@ -1,16 +1,16 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Button } from 'reactstrap';
-import _ from 'lodash/fp';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { Button } from 'reactstrap'
+import _ from 'lodash/fp'
 
 export default function run_demo(root, channel) {
-  ReactDOM.render(<Demo channel={channel}/>, root);
+  ReactDOM.render(<Demo channel={channel}/>, root)
 }
 
 class Demo extends React.Component {
   constructor(props) {
-    super(props);
-    this.channel = props.channel;
+    super(props)
+    this.channel = props.channel
     this.state = {
       loaded: false,
       clicks: undefined,
@@ -18,45 +18,45 @@ class Demo extends React.Component {
       completed: undefined,
       checkIndex: undefined,
       confirmIndex: undefined,
-    };
+    }
     this.channel
       .join()
       .receive("ok", ({ game }) => {
         game['loaded'] = true
         this.setState(game)
       })
-    this.toggle = this.toggle.bind(this);
-    this.afterToggle = this.afterToggle.bind(this);
-    this.reset = this.reset.bind(this);
+    this.toggle = this.toggle.bind(this)
+    this.afterToggle = this.afterToggle.bind(this)
+    this.reset = this.reset.bind(this)
   }
 
   reset() {
     this.channel
       .push('reset')
-      .receive('ok', ({ game }) => this.setState(game));
+      .receive('ok', ({ game }) => this.setState(game))
   }
 
   afterToggle() {
-    const { confirmIndex, checkIndex, letters, completed } = this.state;
+    const { confirmIndex, checkIndex, letters, completed } = this.state
     if (!_.isNil(confirmIndex) && !_.isNil(checkIndex)) {
       const interval = setInterval(() => {
         this.channel
           .push('clear_indices')
-          .receive('ok', ({ game }) => this.setState(game));
-      }, 1000);
-      setTimeout(() => clearInterval(interval), 1000);
+          .receive('ok', ({ game }) => this.setState(game))
+      }, 1000)
+      setTimeout(() => clearInterval(interval), 1000)
     }
   }
 
   toggle(i) {
-    const { clicks, confirmIndex, checkIndex } = this.state;
+    const { clicks, confirmIndex, checkIndex } = this.state
     this.channel
       .push('toggle', { index: i })
-      .receive('ok', ({ game }) => this.setState(game, this.afterToggle));
+      .receive('ok', ({ game }) => this.setState(game, this.afterToggle))
   }
 
   render() {
-    const { letters, clicks, completed, checkIndex, confirmIndex, loaded } = this.state;
+    const { letters, clicks, completed, checkIndex, confirmIndex, loaded } = this.state
     if (!loaded) return false
     return (
       <div className="memory-game">
@@ -75,7 +75,7 @@ class Demo extends React.Component {
           )}
         </div>
       </div>
-    );
+    )
   }
 }
 

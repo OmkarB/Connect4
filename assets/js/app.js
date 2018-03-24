@@ -11,7 +11,7 @@
 //
 // If you no longer want to use a dependency, remember
 // to also remove its path from "config.paths.watched".
-import "phoenix_html";
+import "phoenix_html"
 
 // Import local files
 //
@@ -20,30 +20,30 @@ import "phoenix_html";
 
 import socket from "./socket"
 
-import run_demo from "./demo";
+import run_demo from "./demo"
 
 function form_init() {
-  let channel = socket.channel("games:demo", {});
+  let channel = socket.channel("games:demo", {})
   channel.join()
          .receive("ok", resp => { console.log("Joined successfully", resp) })
-         .receive("error", resp => { console.log("Unable to join", resp) });
+         .receive("error", resp => { console.log("Unable to join", resp) })
 
   $('#game-button').click(() => {
-    let xx = $('#game-input').val();
+    let xx = $('#game-input').val()
     window.location.replace(`${window.location.origin}/game/${xx}`)
-  });
+  })
 }
 
 function init() {
-  let root = document.getElementById('root');
+  let root = document.getElementById('root')
   if (root) {
-    let channel = socket.channel("games:" + window.gameName, {});
-    run_demo(root, channel);
+    let channel = socket.channel("games:" + window.gameName, {})
+    run_demo(root, channel)
   }
   if (document.getElementById('index-page')) {
-    form_init();
+    form_init()
   }
 }
 
 // Use jQuery to delay until page loaded.
-$(init);
+$(init)
