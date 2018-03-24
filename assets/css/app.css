@@ -1,1 +1,41 @@
-/* This file is for your main application css. */
+.grid {
+  background-color: #0c60ab;
+}
+
+.row {
+  display: flex;
+}
+
+.coin {
+  width: 60px;
+  height: 60px;
+  border-radius: 1000px;
+  margin: 10px;
+  background-color: white;
+}
+
+.coin.is-red {
+  background-color: red;
+}
+
+.coin.is-yellow {
+  background-color: yellow;
+}
+
+.coin.is-selectable:hover {
+  background-color: rgb(84, 209, 255);
+  cursor: pointer;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 209, 255, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(84, 209, 255, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(84, 209, 255, 0);
+  }
+}
