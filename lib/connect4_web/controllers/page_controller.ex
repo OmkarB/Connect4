@@ -6,5 +6,6 @@ defmodule Connect4Web.PageController do
   end
 
   def game(conn, params) do
-  	render conn, "game.html", game: params["game"]
+    render conn, "game.html", game: params["game"]
+  end
 end
