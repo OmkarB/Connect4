@@ -42,7 +42,8 @@ const Board = ({ board, selectColumn, turn, winner, role }) => (
 
 const Message = ({ message }) => (
   <div className="message">
-    {message.role}: {message.body}
+    <div className="message__role">{message.role.toUpperCase()}:</div>
+    <div className="message__body">{message.body}</div>
   </div>
 )
 
@@ -54,6 +55,19 @@ class Chatroom extends Component {
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.scrollToBottom = this.scrollToBottom.bind(this)
+  }
+
+  componentDidMount() {
+    this.scrollToBottom()
+  }
+
+  componentDidUpdate() {
+    this.scrollToBottom()
+  }
+
+  scrollToBottom() {
+    this.messages.scrollTop = this.messages.scrollHeight
   }
 
   handleSubmit(event) {
@@ -75,7 +89,12 @@ class Chatroom extends Component {
     const { body } = this.state
     return (
       <div className="chatroom">
-        <div className="messages">{messages.map(message => <Message message={message}/>)}</div>
+        <div
+          className="messages"
+          ref={node => this.messages = node}
+        >
+          {messages.map(message => <Message message={message}/>)}
+        </div>
         <input onChange={this.handleChange} onKeyDown={this.handleSubmit} value={body}/>
       </div>
     )

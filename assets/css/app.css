@@ -1,5 +1,7 @@
 body {
   margin: 0;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 12px;
 }
 
 .game-container {
@@ -48,4 +50,29 @@ body {
   100% {
     box-shadow: 0 0 0 0 rgba(84, 209, 255, 0);
   }
+}
+
+.chatroom {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+  width: 300px;
+  height: 500px;
+}
+
+.messages {
+  border-bottom: 1px solid black;
+  padding: 10px;
+  flex: 1;
+  overflow: auto;
+}
+
+.message {
+  margin-bottom: 10px;
+}
+
+.chatroom input {
+  border: none;
+  padding: 10px;
+  outline: none;
 }
