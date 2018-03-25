@@ -6,9 +6,15 @@ export default function run_demo(root, channel) {
   ReactDOM.render(<Demo channel={channel}/>, root)
 }
 
-const colors = {
-  RED: 'RED',
-  YELLOW: 'YELLOW',
+const COLOR = {
+  RED: 'red',
+  YELLOW: 'yellow',
+}
+
+const ROLE = {
+  RED: COLOR.RED,
+  YELLOW: COLOR.YELLOW,
+  SPECTATOR: 'spectator',
 }
 
 class Demo extends Component {
@@ -50,25 +56,26 @@ class Demo extends Component {
     return (
       <div>
         <div className="overview">
-          {!!winner &&
-            `Game over, ${role === winner ? 'you win' : 'the opponent wins'}!`
-          }
-          {!winner && (turn === role ? 'Your turn' : "Opponent's turn")}
+          {!!winner && `Game over, ${winner} wins!`}
+          {role !== ROLE.SPECTATOR && !winner && (turn === role ? 'Your turn' : "Opponent's turn")}
         </div>
         <div className="grid">
           {board.map((row, rowIndex) =>
             <div className="row" key={`row-${rowIndex}`}>
-              {row.map((coin, columnIndex) =>
-                <div
-                  key={`coin-${columnIndex}-${rowIndex}`}
-                  onClick={rowIndex === 0 && !coin ? this.selectColumn(columnIndex) : undefined}
-                  className={cx(
-                    'coin',
-                    { 'is-selectable': rowIndex === 0 && !coin },
-                    { 'is-yellow': coin === colors.YELLOW, 'is-red': coin === colors.RED }
-                  )}
-                />
-              )}
+              {row.map((coin, columnIndex) => {
+                const selectable = turn === role && rowIndex === 0 && !coin
+                return (
+                  <div
+                    key={`coin-${columnIndex}-${rowIndex}`}
+                    onClick={selectable ? this.selectColumn(columnIndex) : undefined}
+                    className={cx(
+                      'coin',
+                      { 'is-selectable': selectable },
+                      { 'is-yellow': coin === COLOR.YELLOW, 'is-red': coin === COLOR.RED }
+                    )}
+                  />
+                )
+              })}
             </div>
           )}
         </div>

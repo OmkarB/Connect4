@@ -5,9 +5,9 @@ defmodule Connect4.GameBackup do
     Agent.start_link(fn -> %{} end, name: __MODULE__)
   end
 
-  def save(name, game) do
+  def save(name, game_state) do
     Agent.update __MODULE__, fn state ->
-      Map.put(state, name, game)
+      Map.put(state, name, game_state)
     end
   end
 
