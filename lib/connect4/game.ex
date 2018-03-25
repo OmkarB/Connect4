@@ -2,7 +2,7 @@ defmodule Connect4.Game do
   def new() do
     %{
       board: create_board(),
-      role: 'red',
+      turn: "RED",
       winner: nil
     }
   end
@@ -48,7 +48,6 @@ defmodule Connect4.Game do
   end
 
   def row_win?(board, role, row) do
-    # http://langintro.com/elixir/article2/
     false
   end
 
