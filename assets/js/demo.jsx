@@ -26,7 +26,7 @@ const Board = ({ board, selectColumn, turn, winner, role }) => (
           return (
             <div
               key={`coin-${columnIndex}-${rowIndex}`}
-              onClick={selectable ? this.selectColumn(columnIndex) : undefined}
+              onClick={selectable ? selectColumn(columnIndex) : undefined}
               className={cx(
                 'coin',
                 { 'is-selectable': selectable },
@@ -40,6 +40,48 @@ const Board = ({ board, selectColumn, turn, winner, role }) => (
   </div>
 )
 
+const Message = ({ message }) => (
+  <div className="message">
+    {message.role}: {message.body}
+  </div>
+)
+
+class Chatroom extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      body: '',
+    }
+    this.handleChange = this.handleChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+  }
+
+  handleSubmit(event) {
+    if (event.keyCode !== 13) return
+    const { channel } = this.props
+    const { body } = this.state
+    channel.push('msg', { body })
+    this.setState({ body: '' })
+  }
+
+  handleChange(event) {
+    this.setState({
+      body: event.target.value,
+    })
+  }
+
+  render() {
+    const { messages } = this.props
+    const { body } = this.state
+    return (
+      <div className="chatroom">
+        <div className="messages">{messages.map(message => <Message message={message}/>)}</div>
+        <input onChange={this.handleChange} onKeyDown={this.handleSubmit} value={body}/>
+      </div>
+    )
+  }
+}
+
 class Demo extends Component {
   constructor(props) {
     super(props)
@@ -50,19 +92,22 @@ class Demo extends Component {
       board: undefined,
       winner: undefined,
       role: undefined,
+      messages: undefined,
     }
     this.channel
       .join()
-      .receive('ok', ({ role, game }) => {
+      .receive('ok', ({ messages, role, game }) => {
         this.setState({
           turn: game.turn,
           board: game.board,
           winner: game.winner,
           loaded: true,
           role,
+          messages,
         })
       })
-    this.channel.on('update', ({ game }) => this.setState(game))
+    this.channel.on('update_game', ({ game }) => this.setState(game))
+    this.channel.on('update_messages', ({ messages }) => this.setState({ messages }))
     this.selectColumn = this.selectColumn.bind(this)
   }
 
@@ -74,7 +119,7 @@ class Demo extends Component {
   }
 
   render() {
-    const { loaded, board, winner, role, turn } = this.state
+    const { messages, loaded, board, winner, role, turn } = this.state
     if (!loaded) return false
     return (
       <div>
@@ -90,6 +135,7 @@ class Demo extends Component {
             board={board}
             selectColumn={this.selectColumn}
           />
+          <Chatroom channel={this.channel} messages={messages}/>
         </div>
       </div>
     )

@@ -9,6 +9,7 @@ defmodule Connect4.Game do
       },
       has_yellow: turn == :yellow,
       has_red: turn == :red,
+      messages: [],
     }
   end
 
