@@ -95,7 +95,12 @@ class Chatroom extends Component {
         >
           {messages.map(message => <Message message={message}/>)}
         </div>
-        <input onChange={this.handleChange} onKeyDown={this.handleSubmit} value={body}/>
+        <input
+          onChange={this.handleChange}
+          onKeyDown={this.handleSubmit}
+          value={body}
+          placeholder="Type a message..."
+        />
       </div>
     )
   }

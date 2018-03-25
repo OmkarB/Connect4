@@ -8,10 +8,12 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 50px;
 }
 
 .board {
   background-color: #0c60ab;
+  margin-right: 20px;
 }
 
 .row {
@@ -22,7 +24,7 @@ body {
   width: 60px;
   height: 60px;
   border-radius: 1000px;
-  margin: 10px;
+  margin: 12px;
   background-color: white;
 }
 
@@ -67,6 +69,10 @@ body {
   overflow: auto;
 }
 
+.message__role {
+  font-weight: 700;
+}
+
 .message {
   margin-bottom: 10px;
 }
@@ -75,4 +81,5 @@ body {
   border: none;
   padding: 10px;
   outline: none;
+  font-family: 'Source Code Pro', monospace;
 }
