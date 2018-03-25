@@ -18,17 +18,12 @@ defmodule Connect4.Game do
     end))
   end
 
-  def move(game, role, column_idx) do
-    case Enum.at(game.board, column_idx) do
-      column ->
-        row = find_last_index(column)
-        new_col = List.replace_at(column, row, role)
-        new_game = %{game | board: List.replace_at(game.board, column_idx, new_col)}
-
-        if is_game_over?(new_game, role, new_col, row) do
-          new_game = %{new_game | winner: role}
-        end
-    end
+  def move(game, role, column_index) do
+    row_index_from_end = Enum.reverse(game.board)
+    |> Enum.find_index(fn (row) -> !Enum.at(row, column_index) end)
+    row_index = Enum.count(game.board) - 1 - row_index_from_end
+    new_board = List.update_at(game.board, row_index, fn (row) -> List.replace_at(row, column_index, role) end)
+    %{ game | board: new_board }
   end
 
   # https://stackoverflow.com/questions/47751186/adding-item-to-list used as

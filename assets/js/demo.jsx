@@ -33,8 +33,7 @@ class Demo extends Component {
           role,
         })
       })
-    this.channel
-      .on('update', game => console.log(game))
+    this.channel.on('update', ({ game }) => this.setState(game))
     this.selectColumn = this.selectColumn.bind(this)
   }
 
