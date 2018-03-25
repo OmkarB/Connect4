@@ -1,4 +1,14 @@
-.grid {
+body {
+  margin: 0;
+}
+
+.board-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.board {
   background-color: #0c60ab;
 }
 

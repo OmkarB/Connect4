@@ -59,25 +59,27 @@ class Demo extends Component {
           {!!winner && `Game over, ${winner} wins!`}
           {role !== ROLE.SPECTATOR && !winner && (turn === role ? 'Your turn' : "Opponent's turn")}
         </div>
-        <div className="grid">
-          {board.map((row, rowIndex) =>
-            <div className="row" key={`row-${rowIndex}`}>
-              {row.map((coin, columnIndex) => {
-                const selectable = turn === role && rowIndex === 0 && !coin
-                return (
-                  <div
-                    key={`coin-${columnIndex}-${rowIndex}`}
-                    onClick={selectable ? this.selectColumn(columnIndex) : undefined}
-                    className={cx(
-                      'coin',
-                      { 'is-selectable': selectable },
-                      { 'is-yellow': coin === COLOR.YELLOW, 'is-red': coin === COLOR.RED }
-                    )}
-                  />
-                )
-              })}
-            </div>
-          )}
+        <div className="board-container">
+          <div className="board">
+            {board.map((row, rowIndex) =>
+              <div className="row" key={`row-${rowIndex}`}>
+                {row.map((coin, columnIndex) => {
+                  const selectable = turn === role && rowIndex === 0 && !coin
+                  return (
+                    <div
+                      key={`coin-${columnIndex}-${rowIndex}`}
+                      onClick={selectable ? this.selectColumn(columnIndex) : undefined}
+                      className={cx(
+                        'coin',
+                        { 'is-selectable': selectable },
+                        { 'is-yellow': coin === COLOR.YELLOW, 'is-red': coin === COLOR.RED }
+                      )}
+                    />
+                  )
+                })}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     )
