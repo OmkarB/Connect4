@@ -24,9 +24,14 @@ class Demo extends Component {
     }
     this.channel
       .join()
-      .receive('ok', ({ game }) => {
-        console.log(game)
-        this.setState(Object.assign({}, game, { loaded: true }))
+      .receive('ok', ({ role, game }) => {
+        this.setState({
+          turn: game.turn,
+          board: game.board,
+          winner: game.winner,
+          loaded: true,
+          role,
+        })
       })
     this.channel
       .on('update', game => console.log(game))
