@@ -146,12 +146,8 @@ class Demo extends Component {
     const { messages, loaded, board, winner, role, turn } = this.state
     if (!loaded) return false
     return (
-      <div>
-        <div className="overview">
-          {!!winner && `Game over, ${winner} wins!`}
-          {role !== ROLE.SPECTATOR && !winner && (turn === role ? 'Your turn' : "Opponent's turn")}
-        </div>
-        <div className="game-container">
+      <div className="game-container">
+        <div className="board-container">
           <Board
             turn={turn}
             winner={winner}
@@ -159,6 +155,10 @@ class Demo extends Component {
             board={board}
             selectColumn={this.selectColumn}
           />
+        </div>
+        <div>
+          {role === ROLE.SPECTATOR && <p><em>spectating</em></p>}
+          <p>turn: {turn} {role !== ROLE.SPECTATOR && `(${role === turn ? 'you': 'opponent'})`}</p>
           <Chatroom channel={this.channel} messages={messages}/>
         </div>
       </div>
