@@ -147,15 +147,13 @@ class Demo extends Component {
     if (!loaded) return false
     return (
       <div className="game-container">
-        <div className="board-container">
-          <Board
-            turn={turn}
-            winner={winner}
-            role={role}
-            board={board}
-            selectColumn={this.selectColumn}
-          />
-        </div>
+        <Board
+          turn={turn}
+          winner={winner}
+          role={role}
+          board={board}
+          selectColumn={this.selectColumn}
+        />
         <div>
           {role === ROLE.SPECTATOR && <p><em>spectating</em></p>}
           <p>turn: {turn} {role !== ROLE.SPECTATOR && `(${role === turn ? 'you': 'opponent'})`}</p>

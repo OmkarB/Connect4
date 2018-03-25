@@ -1,0 +1,39 @@
+.lobby h1 {
+  margin: 0;
+  margin-bottom: 50px;
+  font-size: 48px;
+}
+
+.lobby input {
+  border: 0;
+  outline: 0;
+  padding: 10px;
+  line-height: 1.5;
+  font-size: 16px;
+  font-family: inherit;
+  display: inline-block;
+}
+
+.lobby button {
+  display: inline-block;
+  font-size: 16px;
+  line-height: 1.5;
+  padding: 10px;
+  background: white;
+  color: black;
+  border: none;
+  font-family: inherit;
+  text-transform: inherit;
+}
+
+.lobby {
+  text-align: center;
+  text-transform: uppercase;
+  background-color: #0c60ab;
+  color: white;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}

@@ -1,8 +1,7 @@
-<div class="row">
-  <div class="col">
-    <h1 id="index-page">Join a Game</h1>
-    <p><input type="text" id="game-input"></p>
-    <p><button id="game-button">join</button></p>
-    <p id="game-output"></p>
+<div class="lobby">
+  <h1 id="index-page">connect 4</h1>
+  <div>
+    <input placeholder="Game Room..." type="text" id="game-input">
+    <button id="game-button">join</button>
   </div>
 </div>

@@ -2,7 +2,6 @@ body {
   margin: 0;
   font-family: 'Source Code Pro', monospace;
   font-size: 12px;
-  background-color: #232323;
 }
 
 p {
@@ -14,13 +13,11 @@ p {
 }
 
 .game-container {
+  background-color: #232323;
   display: flex;
   align-items: center;
   justify-content: space-around;
   height: 100vh;
-}
-
-.board-container {
 }
 
 .board {
