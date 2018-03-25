@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import cx from 'classnames'
-import { findLastIndex } from 'ramda'
 
 export default function run_demo(root, channel) {
   ReactDOM.render(<Demo channel={channel}/>, root)
@@ -12,46 +11,37 @@ const colors = {
   YELLOW: 'YELLOW',
 }
 
-const DEFAULT_GRID = [
-  [undefined, undefined, undefined, undefined, undefined, undefined, undefined],
-  [undefined, undefined, undefined, undefined, undefined, undefined, undefined],
-  [undefined, undefined, undefined, undefined, undefined, undefined, undefined],
-  [undefined, undefined, undefined, undefined, undefined, undefined, undefined],
-  [undefined, colors.YELLOW, undefined, undefined, undefined, undefined, undefined],
-  [undefined, colors.YELLOW, undefined, undefined, colors.RED, undefined, undefined],
-]
-
 class Demo extends Component {
   constructor(props) {
     super(props)
     this.channel = props.channel
     this.state = {
       loaded: false,
-      turn: colors.RED,
-      grid: DEFAULT_GRID,
+      turn: undefined,
+      board: undefined,
       winner: undefined,
-      role: colors.RED,
+      role: undefined,
     }
     this.channel
       .join()
-      .receive("ok", ({ game }) => {
-        game['loaded'] = true
-        this.setState(game)
+      .receive('ok', ({ game }) => {
+        console.log(game)
+        this.setState(Object.assign({}, game, { loaded: true }))
       })
+    this.channel
+      .on('update', game => console.log(game))
     this.selectColumn = this.selectColumn.bind(this)
   }
 
   selectColumn(columnIndex) {
     return () => {
-      const { grid, turn } = this.state
-      const rowIndex = findLastIndex(row => !row[columnIndex], grid)
-      grid[rowIndex][columnIndex] = turn
-      this.setState({ turn: turn === colors.RED ? colors.YELLOW : colors.RED })
+      const { board, turn } = this.state
+      this.channel.push('move', { column_index: columnIndex })
     }
   }
 
   render() {
-    const { loaded, grid, winner, role, turn } = this.state
+    const { loaded, board, winner, role, turn } = this.state
     if (!loaded) return false
     return (
       <div>
@@ -62,7 +52,7 @@ class Demo extends Component {
           {!winner && (turn === role ? 'Your turn' : "Opponent's turn")}
         </div>
         <div className="grid">
-          {grid.map((row, rowIndex) =>
+          {board.map((row, rowIndex) =>
             <div className="row" key={`row-${rowIndex}`}>
               {row.map((coin, columnIndex) =>
                 <div
