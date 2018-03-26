@@ -24,10 +24,11 @@ defmodule Connect4.Game do
     |> Enum.find_index(fn (row) -> !Enum.at(row, column_index) end)
     row_index = Enum.count(game.board) - 1 - row_index_from_end
     new_board = List.update_at(game.board, row_index, fn (row) -> List.replace_at(row, column_index, role) end)
-    if is_game_over?(game, role, column_index, row_index) do
-      winner = role
-    else
-      winner = nil
+    winner =
+      if is_game_over?(game, role, column_index, row_index) do
+        role
+      else
+       nil
     end
     %{game | board: new_board, turn: (if role == :yellow, do: :red, else: :yellow),
              last_move: {column_index, row_index}, winner: winner}
@@ -35,13 +36,13 @@ defmodule Connect4.Game do
 
   # https://stackoverflow.com/questions/47751186/adding-item-to-list used as
   def is_four_in_row?(row, role) do
-    count = row |> List.foldl 0, fn (item, acc) ->
+    count = row |> List.foldl(0, fn (item, acc) ->
       case {item, acc} do
         {_, 4} -> 4
         {^role, _} -> acc + 1
         _ -> 0
       end
-    end
+    end)
     count == 4
   end
 
@@ -52,8 +53,8 @@ defmodule Connect4.Game do
   def column_win?(board, role, column_index) do
     # http://langintro.com/elixir/article2/
     flipped = for i <- 0..5 do
-      Enum.map(board, fn(row) ->
-        if i <= 5, do: Enum.at(column_index, i)
+      Enum.map(board, fn(column) ->
+        if i <= 5, do: Enum.at(column, i)
       end)
     end
     Enum.at(flipped, column_index) |> is_four_in_row?(role)
@@ -65,14 +66,14 @@ defmodule Connect4.Game do
     right_diagonal = Enum.take_every(flat_board, 9)
 
     diagonals = left_diagonal ++ right_diagonal
-    Enum.any? board, fn(row) -> is_four_in_row?(row, role) end
+    Enum.any? diagonals, fn(row) -> is_four_in_row?(row, role) end
   end
 
   def is_game_over?(game, role, column_index, row_index) do
     cond do
       column_win?(game.board, role, column_index) ->
         true
-      row_win?(game.board, role, row_idnex) ->
+      row_win?(game.board, role, row_index) ->
         true
       diagonal_win?(game.board, role) ->
         true
