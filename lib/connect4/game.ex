@@ -61,17 +61,34 @@ defmodule Connect4.Game do
   def is_a_tie?(board) do
     tie = board
       |> List.flatten
-      |> Enum.any?(nil)
+      |> Enum.member?(nil)
     !tie
+  end
+
+  def get_diagonals(board) do
+    anti_diagonals = for p <- 0..12 do
+      Enum.map(Enum.max([p-7,0])..Enum.min([p+1, 7]), fn(q) ->#0..1
+        Enum.at(board, p - q)
+        |> Enum.at(q)
+      end)
+    end
+
+    diagonals = for p <- 0..12 do
+      Enum.map(Enum.max([p-7,0])..Enum.min([p+1, 7]), fn(q) ->#0..1
+        Enum.at(board, 5-p+q-1)
+        |> Enum.at(q)
+      end)
+    end
+    anti_diagonals ++ diagonals
   end
 
   def diagonal_win?(board, role) do
     diagonals = get_diagonals(board)
-    IO.inspect get_element(board, diagonals)
+    IO.inspect diagonals
+    false
   end
 
   def is_game_over?(board, role, column_index, row_index) do
-    true
     cond do
       column_win?(board, role, column_index) ->
         true
@@ -84,4 +101,3 @@ defmodule Connect4.Game do
     end
   end
 end
-
