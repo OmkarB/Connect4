@@ -27,7 +27,7 @@ defmodule Connect4.Game do
       cond do
         is_game_over?(new_board, role, column_index, row_index) -> role
         is_a_tie?(new_board) -> 'tie'
-        _ -> nil
+        true -> nil
     end
     %{game | board: new_board, turn: (if role == :yellow, do: :red, else: :yellow), winner: winner}
   end
