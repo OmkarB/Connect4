@@ -24,10 +24,10 @@ defmodule Connect4.Game do
     row_index = Enum.count(game.board) - 1 - row_index_from_end
     new_board = List.update_at(game.board, row_index, fn (row) -> List.replace_at(row, column_index, role) end)
     winner =
-      if is_game_over?(new_board, role, column_index, row_index) do
-        role
-      else
-       nil
+      cond do
+        is_game_over?(new_board, role, column_index, row_index) -> role
+        is_a_tie?(new_board) -> 'tie'
+        _ -> nil
     end
     %{game | board: new_board, turn: (if role == :yellow, do: :red, else: :yellow), winner: winner}
   end
@@ -58,18 +58,16 @@ defmodule Connect4.Game do
     Enum.at(flipped, column_index) |> is_four_in_row?(role)
   end
 
-  def diagonal_win?(board, role) do
-    flat_board = List.flatten(board)
-    IO.inspect flat_board
-    left_diagonal = Enum.take_every(flat_board, 8)
-    # left_diagonal_back = Enum.take_every(Enum.reverse(flat_board), 7)
-    # right_diagonal_back = Enum.take_every(Enum.reverse(flat_board), 9)
-    right_diagonal = Enum.take_every(flat_board, 10)
-    diagonals = left_diagonal ++ right_diagonal
-    IO.inspect left_diagonal
-    IO.inspect right_diagonal
+  def is_a_tie?(board) do
+    tie = board
+      |> List.flatten
+      |> Enum.any?(nil)
+    !tie
+  end
 
-    false
+  def diagonal_win?(board, role) do
+    diagonals = get_diagonals(board)
+    IO.inspect get_element(board, diagonals)
   end
 
   def is_game_over?(board, role, column_index, row_index) do
