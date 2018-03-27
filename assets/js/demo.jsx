@@ -156,7 +156,7 @@ class Demo extends Component {
         />
         <div>
           {role === ROLE.SPECTATOR && <p><em>spectating</em></p>}
-          <p>{winner ? 'winner' : 'turn'}: {turn} {role !== ROLE.SPECTATOR && `(${role === turn ? 'you': 'opponent'})`}</p>
+          <p>{winner ? 'winner' : 'turn'}: {winner ? winner : turn} {role !== ROLE.SPECTATOR && `(${role === turn ? 'you': 'opponent'})`}</p>
           <Chatroom channel={this.channel} messages={messages}/>
         </div>
       </div>
