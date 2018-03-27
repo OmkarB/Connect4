@@ -6,7 +6,6 @@ defmodule Connect4.Game do
         board: create_board(),
         turn: turn,
         winner: nil,
-        last_move: {nil, nil},
       },
       has_yellow: turn == :yellow,
       has_red: turn == :red,
@@ -30,8 +29,7 @@ defmodule Connect4.Game do
       else
        nil
     end
-    %{game | board: new_board, turn: (if role == :yellow, do: :red, else: :yellow),
-             last_move: {column_index, row_index}, winner: winner}
+    %{game | board: new_board, turn: (if role == :yellow, do: :red, else: :yellow), winner: winner}
   end
 
   # https://stackoverflow.com/questions/47751186/adding-item-to-list used as
@@ -70,16 +68,17 @@ defmodule Connect4.Game do
   end
 
   def is_game_over?(game, role, column_index, row_index) do
-    cond do
-      column_win?(game.board, role, column_index) ->
-        true
-      row_win?(game.board, role, row_index) ->
-        true
-      diagonal_win?(game.board, role) ->
-        true
-      true ->
-        false
-      end
+    true
+    # cond do
+    #   column_win?(game.board, role, column_index) ->
+    #     true
+    #   row_win?(game.board, role, row_index) ->
+    #     true
+    #   diagonal_win?(game.board, role) ->
+    #     true
+    #   true ->
+    #     false
+    # end
   end
 end
 
