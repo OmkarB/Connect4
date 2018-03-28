@@ -50,9 +50,9 @@ defmodule Connect4.Game do
 
   def column_win?(board, role, column_index) do
     # http://langintro.com/elixir/article2/
-    flipped = for i <- 0..5 do
+    flipped = for i <- 0..6 do
       Enum.map(board, fn(column) ->
-        if i <= 5, do: Enum.at(column, i)
+        if i <= 6, do: Enum.at(column, i)
       end)
     end
     Enum.at(flipped, column_index) |> is_four_in_row?(role)
