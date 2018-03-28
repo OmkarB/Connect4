@@ -67,14 +67,15 @@ defmodule Connect4.Game do
 
   def get_diagonals(board) do
     anti_diagonals = for p <- 0..12 do
-      Enum.map(Enum.max([p-7,0])..Enum.min([p+1, 7]), fn(q) ->#0..1
-        Enum.at(board, p - q)
+      Enum.map(Enum.max([p-7,0])..Enum.min([p+1, 7]), fn(q) -> #0..1
+        Enum.reverse(board)
+        |> Enum.at(5-p+q-1)
         |> Enum.at(q)
       end)
     end
 
     diagonals = for p <- 0..12 do
-      Enum.map(Enum.max([p-7,0])..Enum.min([p+1, 7]), fn(q) ->#0..1
+      Enum.map(Enum.max([p-7,0])..Enum.min([p+1, 7]), fn(q) -> #0..1
         Enum.at(board, 5-p+q-1)
         |> Enum.at(q)
       end)
@@ -84,8 +85,14 @@ defmodule Connect4.Game do
 
   def diagonal_win?(board, role) do
     diagonals = get_diagonals(board)
-    IO.inspect diagonals
-    false
+    filtered = Enum.filter(diagonals, fn(diagonal) ->
+      Enum.count(diagonal) >= 4 end)
+
+    result = Enum.map(filtered, fn(row) ->
+      is_four_in_row?(row, role)
+    end)
+
+    Enum.member?(result, true)
   end
 
   def is_game_over?(board, role, column_index, row_index) do
